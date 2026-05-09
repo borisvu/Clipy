@@ -14,7 +14,7 @@ import Cocoa
 import Sparkle
 import RxCocoa
 import RxSwift
-import LoginServiceKit
+import ServiceManagement
 import Magnet
 import Screeen
 import RxScreeen
@@ -152,10 +152,15 @@ class AppDelegate: NSObject, NSMenuItemValidation {
     }
 
     private func toggleAddingToLoginItems(_ isEnable: Bool) {
-        let appPath = Bundle.main.bundlePath
-        LoginServiceKit.removeLoginItems(at: appPath)
-        guard isEnable else { return }
-        LoginServiceKit.addLoginItems(at: appPath)
+        do {
+            if isEnable {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            NSLog("Failed to update login item: \(error)")
+        }
     }
 
     private func reflectLoginItemState() {
