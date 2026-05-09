@@ -19,7 +19,6 @@ import Magnet
 import Screeen
 import RxScreeen
 import RealmSwift
-import LetsMove
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSMenuItemValidation {
@@ -206,11 +205,6 @@ extension AppDelegate: NSApplicationDelegate {
         AppEnvironment.current.menuManager.setup()
     }
 
-    func applicationWillFinishLaunching(_ notification: Notification) {
-        #if RELEASE
-            PFMoveToApplicationsFolderIfNecessary()
-        #endif
-    }
 
 }
 
