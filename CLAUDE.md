@@ -9,23 +9,21 @@ Clipy is a clipboard history manager for macOS, written in Swift. It runs as a s
 ## Build & Run
 
 ```bash
-# Install dependencies (first time or after Podfile changes)
-bundle install --path=vendor/bundle && bundle exec pod install
+# Open project in Xcode
+open Clipy.xcodeproj
 
-# Open workspace in Xcode (NOT the .xcodeproj)
-open Clipy.xcworkspace
-
-# Run tests via fastlane
-bundle exec fastlane test
+# Build and test from command line
+xcodebuild test -project Clipy.xcodeproj -scheme Clipy -destination 'platform=macOS'
 ```
 
-Build and run from Xcode using the `Clipy` scheme in `Clipy.xcworkspace`. The project uses CocoaPods — always open the `.xcworkspace`, never the `.xcodeproj`.
+Build and run from Xcode using the `Clipy` scheme in `Clipy.xcodeproj`. Dependencies are managed via Swift Package Manager — Xcode resolves them automatically on first open.
 
 ## Linting
 
-SwiftLint runs via the CocoaPods-installed binary:
+SwiftLint installed via Homebrew:
 ```bash
-./Pods/SwiftLint/swiftlint
+brew install swiftlint
+swiftlint
 ```
 Config is in `.swiftlint.yml`. Only `Clipy/Sources` and `ClipyTests` are linted. Notable: `line_length` is 300, `todo` rule is disabled, `force_try` is disabled.
 
@@ -67,7 +65,11 @@ The app uses RxSwift/RxCocoa extensively for binding UserDefaults changes to UI/
 
 ## Testing
 
-Tests use Quick/Nimble and live in `ClipyTests/`. Run with `bundle exec fastlane test` or Xcode's test runner (Cmd+U). Test specs exist for `CPYFolder`, `CPYSnippet`, `CPYDraggedData`, and `HotKeyService`.
+Tests use Swift Testing and live in `ClipyTests/`. Run with Xcode's test runner (Cmd+U) or from command line:
+```bash
+xcodebuild test -project Clipy.xcodeproj -scheme Clipy -destination 'platform=macOS'
+```
+Test files exist for `CPYFolder`, `CPYSnippet`, `CPYDraggedData`, and `HotKeyService`.
 
 ## Localization
 
@@ -75,10 +77,11 @@ Supported: English (base), Japanese, German, Italian, Chinese (Simplified). Stri
 
 ## Key Dependencies
 
+Dependencies are managed via Swift Package Manager (SPM).
+
 - **RealmSwift** — local database for clips, folders, snippets
 - **RxSwift/RxCocoa** — reactive bindings throughout the app
 - **Magnet/KeyHolder/Sauce** — global hotkey registration and UI
 - **PINCache** — thumbnail image caching
 - **Sparkle** — auto-update via appcast
-- **LetsMove** — prompts user to move app to /Applications
 - **AEXML** — snippet import/export via XML

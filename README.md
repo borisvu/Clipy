@@ -20,15 +20,16 @@ __Distribution Site__ : <https://clipy-app.com>
 <img src="http://clipy-app.com/img/screenshot1.png" width="400">
 
 ### Development Environment
-* macOS 10.15 Catalina
-* Xcode 12.2
-* Swift 5.3
+* macOS 14 Sonoma or higher
+* Xcode 16+
+* Swift 5.10+
 
 ### How to Build
 0. Move to the project root directory
-1. `bundle install --path=vendor/bundle && bundle exec pod install`
-2. Open `Clipy.xcworkspace` on Xcode.
-3. build.
+1. Open `Clipy.xcodeproj` on Xcode.
+2. Build.
+
+Dependencies are managed via Swift Package Manager and resolve automatically.
 
 ### Contributing
 1. Fork it ( https://github.com/Clipy/Clipy/fork )
