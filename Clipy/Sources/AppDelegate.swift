@@ -26,6 +26,7 @@ class AppDelegate: NSObject, NSMenuItemValidation {
     // MARK: - Properties
     let screenshotObserver = ScreenShotObserver()
     let disposeBag = DisposeBag()
+    let updaterController = SPUStandardUpdaterController(startingUpdater: false, updaterDelegate: nil, userDriverDelegate: nil)
 
     // MARK: - Init
     override func awakeFromNib() {
@@ -187,10 +188,9 @@ extension AppDelegate: NSApplicationDelegate {
         }
 
         // Sparkle
-        let updater = SUUpdater.shared()
-        updater?.feedURL = Constants.Application.appcastURL
-        updater?.automaticallyChecksForUpdates = AppEnvironment.current.defaults.bool(forKey: Constants.Update.enableAutomaticCheck)
-        updater?.updateCheckInterval = TimeInterval(AppEnvironment.current.defaults.integer(forKey: Constants.Update.checkInterval))
+        updaterController.updater.automaticallyChecksForUpdates = AppEnvironment.current.defaults.bool(forKey: Constants.Update.enableAutomaticCheck)
+        updaterController.updater.updateCheckInterval = TimeInterval(AppEnvironment.current.defaults.integer(forKey: Constants.Update.checkInterval))
+        updaterController.startUpdater()
 
         // Binding Events
         bind()
