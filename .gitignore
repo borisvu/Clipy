@@ -158,7 +158,7 @@ build-iPhoneSimulator/
 .swiftpm/
 
 # Claude Code
-.claude/
+.claude/*.local.*
 
 # macOS
 .DS_Store
