@@ -156,3 +156,9 @@ build-iPhoneSimulator/
 # Swift Package Manager
 .build/
 .swiftpm/
+
+# Claude Code
+.claude/
+
+# macOS
+.DS_Store
