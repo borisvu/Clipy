@@ -3,6 +3,7 @@ import Foundation
 import RealmSwift
 @testable import Clipy
 
+@Suite(.serialized)
 struct SnippetTests {
 
     @Test func mergeSnippet() throws {

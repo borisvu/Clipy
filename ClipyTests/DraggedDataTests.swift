@@ -16,10 +16,11 @@ struct DraggedDataTests {
             requiringSecureCoding: false
         )
 
-        let unarchiveData = try NSKeyedUnarchiver.unarchivedObject(
-            ofClass: CPYDraggedData.self,
-            from: data
-        )
+        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+        unarchiver.requiresSecureCoding = false
+        let unarchiveData = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? CPYDraggedData
+        unarchiver.finishDecoding()
+
         #expect(unarchiveData != nil)
         #expect(unarchiveData?.type == draggedData.type)
         #expect(unarchiveData?.folderIdentifier == draggedData.folderIdentifier)

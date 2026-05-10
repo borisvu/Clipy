@@ -3,6 +3,7 @@ import Foundation
 import RealmSwift
 @testable import Clipy
 
+@Suite(.serialized)
 struct FolderTests {
 
     @Test func deepCopyObject() throws {

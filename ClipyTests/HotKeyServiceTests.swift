@@ -4,6 +4,7 @@ import Magnet
 import Carbon
 @testable import Clipy
 
+@Suite(.serialized)
 struct HotKeyServiceTests {
 
     private func cleanupDefaults() {
