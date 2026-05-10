@@ -74,7 +74,12 @@ struct AppEnvironment {
 
     static func fromStorage(defaults: UserDefaults = .standard) -> Environment {
         var excludeApplications = [CPYAppInfo]()
-        if let data = defaults.object(forKey: Constants.UserDefaults.excludeApplications) as? Data, let applications = NSKeyedUnarchiver.unarchiveObject(with: data) as? [CPYAppInfo] {
+        if let data = defaults.object(forKey: Constants.UserDefaults.excludeApplications) as? Data,
+           let applications: [CPYAppInfo] = {
+               guard let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: data) else { return nil }
+               unarchiver.requiresSecureCoding = false
+               return unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? [CPYAppInfo]
+           }() {
             excludeApplications = applications
         }
         let excludeAppService = ExcludeAppService(applications: excludeApplications)

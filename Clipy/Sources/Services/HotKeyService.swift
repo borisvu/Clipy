@@ -102,7 +102,9 @@ extension HotKeyService {
 
     private func savedKeyCombo(forKey key: String) -> KeyCombo? {
         guard let data = AppEnvironment.current.defaults.object(forKey: key) as? Data else { return nil }
-        guard let keyCombo = NSKeyedUnarchiver.unarchiveObject(with: data) as? KeyCombo else { return nil }
+        guard let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: data) else { return nil }
+        unarchiver.requiresSecureCoding = false
+        guard let keyCombo = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? KeyCombo else { return nil }
         return keyCombo
     }
 }
@@ -166,11 +168,13 @@ extension HotKeyService {
     private var folderKeyCombos: [String: KeyCombo]? {
         get {
             guard let data = AppEnvironment.current.defaults.object(forKey: Constants.HotKey.folderKeyCombos) as? Data else { return nil }
-            return NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: KeyCombo]
+            guard let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: data) else { return nil }
+            unarchiver.requiresSecureCoding = false
+            return unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? [String: KeyCombo]
         }
         set {
             if let value = newValue {
-                AppEnvironment.current.defaults.set(NSKeyedArchiver.archivedData(withRootObject: value), forKey: Constants.HotKey.folderKeyCombos)
+                AppEnvironment.current.defaults.set(try? NSKeyedArchiver.archivedData(withRootObject: value, requiringSecureCoding: false), forKey: Constants.HotKey.folderKeyCombos)
             } else {
                 AppEnvironment.current.defaults.removeObject(forKey: Constants.HotKey.folderKeyCombos)
             }
