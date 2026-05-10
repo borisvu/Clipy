@@ -440,10 +440,9 @@ private extension MenuManager {
         }
         image?.isTemplate = true
 
-        statusItem = NSStatusBar.system.statusItem(withLength: -1)
-        statusItem?.image = image
-        statusItem?.highlightMode = true
-        statusItem?.toolTip = "\(Constants.Application.name)\(Bundle.main.appVersion ?? "")"
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem?.button?.image = image
+        statusItem?.button?.toolTip = "\(Constants.Application.name)\(Bundle.main.appVersion ?? "")"
         statusItem?.menu = clipMenu
     }
 
