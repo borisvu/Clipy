@@ -430,7 +430,7 @@ private extension MenuManager {
         removeStatusItem()
         if type == .none { return }
 
-        let image: NSImage?
+        let image: NSImage
         switch type {
         case .black:
             image = Asset.statusbarMenuBlack.image
@@ -438,12 +438,14 @@ private extension MenuManager {
             image = Asset.statusbarMenuWhite.image
         case .none: return
         }
-        image?.isTemplate = true
+        image.isTemplate = true
 
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem?.button?.image = image
-        statusItem?.button?.toolTip = "\(Constants.Application.name)\(Bundle.main.appVersion ?? "")"
-        statusItem?.menu = clipMenu
+        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        item.button?.image = image
+        item.button?.imagePosition = .imageOnly
+        item.toolTip = "\(Constants.Application.name)\(Bundle.main.appVersion ?? "")"
+        item.menu = clipMenu
+        statusItem = item
     }
 
     func removeStatusItem() {
